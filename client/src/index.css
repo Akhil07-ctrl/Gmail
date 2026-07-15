@@ -1,0 +1,169 @@
+/* ── Google Fonts ─────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+/* ── CSS Custom Properties (Design Tokens) ───────────────────────────────── */
+:root {
+  --font-sans: 'Inter', 'Google Sans', system-ui, -apple-system, sans-serif;
+
+  /* Surface colors */
+  --surface-0: #ffffff;
+  --surface-1: #f6f8fc;
+  --surface-2: #edf2fb;
+  --surface-3: #e3eafc;
+
+  /* Text colors */
+  --text-primary: #202124;
+  --text-secondary: #5f6368;
+  --text-tertiary: #80868b;
+  --text-unread: #202124;
+
+  /* Brand */
+  --blue-50: #e8f0fe;
+  --blue-100: #d2e3fc;
+  --blue-500: #1a73e8;
+  --blue-600: #1557b0;
+  --blue-700: #0d47a1;
+
+  /* Border */
+  --border-light: #e0e0e0;
+  --border-medium: #c4c7c5;
+
+  /* Sidebar */
+  --sidebar-bg: #f6f8fc;
+  --sidebar-width: 256px;
+  --sidebar-collapsed: 72px;
+
+  /* Hover & selected */
+  --hover-bg: #e8eaed;
+  --selected-bg: #d3e3fd;
+  --selected-hover: #c5d8fc;
+
+  /* Unread pill */
+  --unread-dot: #1a73e8;
+
+  /* Star */
+  --star-active: #f4c542;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(60,64,67,.3), 0 1px 3px rgba(60,64,67,.15);
+  --shadow-md: 0 2px 6px rgba(60,64,67,.3), 0 1px 2px rgba(60,64,67,.15);
+  --shadow-lg: 0 4px 8px 3px rgba(60,64,67,.15), 0 1px 3px rgba(60,64,67,.3);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(.4,0,.2,1);
+  --transition-normal: 250ms cubic-bezier(.4,0,.2,1);
+
+  /* Scrollbar */
+  --scrollbar-thumb: #c1c1c1;
+  --scrollbar-track: transparent;
+}
+
+/* ── Dark Mode ───────────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --surface-0: #1f1f1f;
+  --surface-1: #2c2c2c;
+  --surface-2: #3a3a3a;
+  --surface-3: #444;
+
+  --text-primary: #e8eaed;
+  --text-secondary: #9aa0a6;
+  --text-tertiary: #6e7276;
+  --text-unread: #e8eaed;
+
+  --border-light: #3c3c3c;
+  --border-medium: #5c5c5c;
+
+  --sidebar-bg: #2c2c2c;
+  --hover-bg: #3a3a3a;
+  --selected-bg: #1a3a5c;
+  --selected-hover: #1d4878;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.4), 0 1px 3px rgba(0,0,0,.3);
+  --shadow-md: 0 2px 6px rgba(0,0,0,.4), 0 1px 2px rgba(0,0,0,.3);
+  --shadow-lg: 0 4px 8px 3px rgba(0,0,0,.3), 0 1px 3px rgba(0,0,0,.4);
+
+  --scrollbar-thumb: #555;
+}
+
+/* ── Global Reset ────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background: var(--surface-0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background var(--transition-normal), color var(--transition-normal);
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
+
+/* ── Skeleton Shimmer ────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface-2) 25%,
+    var(--surface-3) 50%,
+    var(--surface-2) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+/* ── Spin Animation ──────────────────────────────────────────────────────── */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-once {
+  animation: spin 600ms ease-in-out;
+}
+
+/* ── Fade In ─────────────────────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in {
+  animation: fadeIn var(--transition-normal) both;
+}
+
+/* ── Slide In from Right ─────────────────────────────────────────────────── */
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.slide-in-right {
+  animation: slideInRight var(--transition-normal) both;
+}
+
+/* ── Email list unread dot pulse ─────────────────────────────────────────── */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .6; }
+}

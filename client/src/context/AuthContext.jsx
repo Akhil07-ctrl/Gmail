@@ -17,7 +17,8 @@ export function AuthProvider({ children }) {
 
   // Trigger Google OAuth — redirects to backend /auth/google
   const login = useCallback(() => {
-    window.location.href = '/auth/google';
+    const apiBase = import.meta.env.VITE_API_URL || '';
+    window.location.href = `${apiBase}/auth/google`;
   }, []);
 
   const logout = useCallback(async () => {

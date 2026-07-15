@@ -12,9 +12,16 @@ const PORT = process.env.PORT || 3001;
 // ── Middleware ──────────────────────────────────────────────────────────────
 app.use(express.json());
 app.use(cookieParser());
+
+// Normalize client URL by stripping trailing slash if present
+let clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+if (clientUrl.endsWith('/')) {
+  clientUrl = clientUrl.slice(0, -1);
+}
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: clientUrl,
     credentials: true,
   })
 );

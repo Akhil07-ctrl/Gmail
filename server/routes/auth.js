@@ -52,7 +52,7 @@ router.get('/google/callback', async (req, res) => {
     // Set as httpOnly, sameSite, secure cookie
     res.cookie('token', jwtToken, {
       httpOnly: true,
-      sameSite: 'lax',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       secure: process.env.NODE_ENV === 'production',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
@@ -84,7 +84,11 @@ router.get('/me', (req, res) => {
  * Clear the session cookie.
  */
 router.post('/logout', (_req, res) => {
-  res.clearCookie('token', { httpOnly: true, sameSite: 'lax' });
+  res.clearCookie('token', {
+    httpOnly: true,
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    secure: process.env.NODE_ENV === 'production',
+  });
   res.json({ success: true });
 });
 

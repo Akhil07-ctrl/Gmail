@@ -57,7 +57,7 @@ router.get('/google/callback', async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    res.redirect(`${process.env.CLIENT_URL}/inbox`);
+    res.redirect(process.env.CLIENT_URL);
   } catch (err) {
     console.error('OAuth callback error:', err);
     res.redirect(`${process.env.CLIENT_URL}?auth_error=callback_failed`);

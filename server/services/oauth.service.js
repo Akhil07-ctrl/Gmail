@@ -53,4 +53,8 @@ function storeTokens(userId, tokens) {
   tokenStore.set(userId, tokens);
 }
 
-module.exports = { getAuthUrl, exchangeCode, getAuthenticatedClient, storeTokens };
+function hasTokens(userId) {
+  return tokenStore.has(userId);
+}
+
+module.exports = { getAuthUrl, exchangeCode, getAuthenticatedClient, storeTokens, hasTokens };

@@ -5,6 +5,20 @@ const api = axios.create({
   withCredentials: true,  // send httpOnly cookie on every request
 });
 
+// Intercept 401 errors to trigger login redirect, ignoring initial auth check
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      const url = error.config?.url || '';
+      if (!url.includes('/auth/me')) {
+        window.location.reload();
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 // ── Auth ──────────────────────────────────────────────────────────────────
 export const getMe = () => api.get('/auth/me').then((r) => r.data);
 export const logout = () => api.post('/auth/logout').then((r) => r.data);

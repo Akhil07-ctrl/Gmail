@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
 const { google } = require('googleapis');
-const { getAuthUrl, exchangeCode, storeTokens } = require('../services/oauth.service');
+const { getAuthUrl, exchangeCode, storeTokens, hasTokens } = require('../services/oauth.service');
 
 /**
  * GET /auth/google
@@ -73,6 +73,14 @@ router.get('/me', (req, res) => {
   if (!token) return res.status(401).json({ error: 'Not authenticated' });
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
+    if (!hasTokens(payload.sub)) {
+      res.clearCookie('token', {
+        httpOnly: true,
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === 'production',
+      });
+      return res.status(401).json({ error: 'Session expired. Please log in again.' });
+    }
     res.json({ sub: payload.sub, email: payload.email, name: payload.name, picture: payload.picture });
   } catch {
     res.status(401).json({ error: 'Invalid token' });
